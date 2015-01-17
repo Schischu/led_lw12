@@ -1,9 +1,9 @@
 # LW12 API Description
 
-## Get Status
-### Command
+#### Get Status
+##### Command
     EF 01 77
-### Response
+##### Response
     [0] 66
     [1] 01
     [2] PowerOff
@@ -15,8 +15,7 @@
     [8] Blue
     [9] 01
     [10] 99
-    
-### Example
+##### Example
     echo -ne '\xEF\x01\x77' | nc -w3 -i1 192.168.178.49 5577 | hexdump -C
     00000000  66 01 23 26 21 0a 85 00  00 01 99                 |f.#A!...)..|
     
@@ -32,32 +31,46 @@
     [9] 01
     [10] 99
  
-## Power On
-### Command
+#### Power On
+##### Command
     CC 23 33
-### Example
+##### Example
     echo -ne '\xCC\x23\x33' | nc -w3 192.168.178.49 5577
 
-## Power Off
-### Command
+#### Power Off
+##### Command
     CC 24 33
-### Example
+##### Example
     echo -ne '\xCC\x24\x33' | nc -w3 192.168.178.49 5577
 
-## Set RGB Color
-### Command 56 [HEXRGB] AA
+#### Set RGB Color
+##### Command 
+    56 [RED] [GREEN] [BLUE] AA
+##### Example - Yellow
+    echo -ne '\x56\xFF\xFF\x00\xAA' | nc -w3 192.168.178.49 5577
 
-## Set Program
-### Command
+#### Set Program
+##### Command
     BB [PRG] [SPEED] 44
     PRG:
-        1: Seven color cross fade
-        2: Red gradual change
+        25: Seven color cross fade
+        26: Red gradual change
+        ...
+    SPEED: 
+        10= 32 - 10(0a) = 22(Speed 22)
+        09: Speed 23
+        0A: Speed 22
+##### Example
+    echo -ne '\xBB\x02\x22\x44' | nc -w3 192.168.178.49 5577
 
-## Program On
-### Command
+#### Program On
+##### Command
     CC 21 33
+##### Example
+    echo -ne '\xCC\x21\x33' | nc -w3 192.168.178.49 5577
 
-## Program Off
-### Command
+#### Program Off
+##### Command
     CC 20 33  
+##### Example
+    echo -ne '\xCC\x20\x33' | nc -w3 192.168.178.49 5577
