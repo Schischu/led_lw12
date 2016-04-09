@@ -1,6 +1,11 @@
 # LW12 API Description
+#### Protocol
+##### Request
+[CMD] [DATA] [~CMD]
+##### Request with Response
+[CMD + 0x1] [DATA] [~CMD]
 
-#### Get Status
+#### Get Status (EE)
 ##### Command
     EF 01 77
 ##### Response
@@ -31,25 +36,31 @@
     [9] 01
     [10] 99
  
-#### Power On
-##### Command
+#### Power On / Off (CC)
+##### Command (Power On)
     CC 23 33
-##### Example
-    echo -ne '\xCC\x23\x33' | nc -w3 192.168.178.49 5577
-
-#### Power Off
-##### Command
+##### Command (Power Off)
     CC 24 33
 ##### Example
+    echo -ne '\xCC\x23\x33' | nc -w3 192.168.178.49 5577
     echo -ne '\xCC\x24\x33' | nc -w3 192.168.178.49 5577
 
-#### Set RGB Color
+#### Program On (CC)
+##### Command (Program On)
+    CC 21 33
+##### Command (Program Off)
+    CC 20 33
+##### Example
+    echo -ne '\xCC\x21\x33' | nc -w3 192.168.178.49 5577
+    echo -ne '\xCC\x20\x33' | nc -w3 192.168.178.49 5577
+
+#### Set RGB Color (55)
 ##### Command 
     56 [RED] [GREEN] [BLUE] AA
 ##### Example - Yellow
     echo -ne '\x56\xFF\xFF\x00\xAA' | nc -w3 192.168.178.49 5577
 
-#### Set Program
+#### Set Program (BB)
 ##### Command
     BB [PRG] [SPEED] 44
     PRG:
@@ -63,14 +74,3 @@
 ##### Example
     echo -ne '\xBB\x02\x22\x44' | nc -w3 192.168.178.49 5577
 
-#### Program On
-##### Command
-    CC 21 33
-##### Example
-    echo -ne '\xCC\x21\x33' | nc -w3 192.168.178.49 5577
-
-#### Program Off
-##### Command
-    CC 20 33  
-##### Example
-    echo -ne '\xCC\x20\x33' | nc -w3 192.168.178.49 5577
